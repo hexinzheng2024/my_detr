@@ -1,5 +1,6 @@
 # Copyright (c) OpenMMLab. All rights reserved.
 import asyncio
+from mmdet.core.evaluation.class_names import DatasetEnum
 from argparse import ArgumentParser
 
 from mmdet.apis import (async_inference_detector, inference_detector,
@@ -17,8 +18,8 @@ def parse_args():
         '--device', default='cuda:0', help='Device used for inference')
     parser.add_argument(
         '--palette',
-        default='coco',
-        choices=['coco', 'voc', 'citys', 'random'],
+        default='red',
+        choices=['red', 'voc', 'citys', 'random'],
         help='Color palette used for visualization')
     parser.add_argument(
         '--score-thr', type=float, default=0.3, help='bbox score threshold')
@@ -32,7 +33,7 @@ def parse_args():
 
 def main(args):
     # build the model from a config file and a checkpoint file
-    model = init_detector(args.config, args.checkpoint, device=args.device)
+    model = init_detector(args.config, args.checkpoint, dataset=DatasetEnum.LVIS, device=args.device)
     # test a single image
     result = inference_detector(model, args.img)
     # show the results
