@@ -26,3 +26,18 @@ pip install -r requirements/runtime.txt
 ```
 
 4. Cut `CO-DETR/configs/image_demo.py` to `CO-DETR/image_demo.py`
+
+5. Download **co-detr-weights** in [[minoadmin](192.168.1.60:9000)]
+
+6. Create directory `CO-DETR/weights` and move downloaded file to `weights`
+
+```shell
+mkdir weights
+mv ~/Downloads/co-detr-weights/* ./weights
+```
+
+7. run the program
+
+```shell
+python image_demo.py demo/demo.jpg projects/configs/co_dino/co_dino_5scale_lsj_swin_large_16e_o365tolvis.py weights/co_dino_5scale_lsj_swin_large_16e_o365tolvis.pth --palette red 
+```
