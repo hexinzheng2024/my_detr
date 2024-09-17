@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculate Sum</title>
+</head>
+<body>
+    <h1>Sum Calculator</h1>
+    <form id="sumForm">
+        <label for="x">X:</label>
+        <input type="number" id="x" name="x" required>
+        <br><br>
+        <label for="y">Y:</label>
+        <input type="number" id="y" name="y" required>
+        <br><br>
+        <button type="submit">Calculate Sum</button>
+    </form>
+
+    <h2>Result: <span id="result"></span></h2>
+
+    <script>
+        document.getElementById('sumForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const x = document.getElementById('x').value;
+            const y = document.getElementById('y').value;
+
+            fetch('http://localhost:5000/calculate', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ x: x, y: y }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('result').innerText = data.sum;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
+    </script>
+</body>
+</html>
