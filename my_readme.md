@@ -40,6 +40,9 @@ cd Co-DETR
 
 # Install the required packages
 pip install -r requirements/runtime.txt
+
+# missing einops
+pip install einops
 ```
 
 ## 4. Move `image_demo.py`
@@ -71,4 +74,10 @@ Finally, run the program using the following command:
 
 ```bash
 python image_demo.py demo/demo.jpg projects/configs/co_dino/co_dino_5scale_lsj_swin_large_16e_o365tolvis.py weights/co_dino_5scale_lsj_swin_large_16e_o365tolvis.pth --palette red
+```
+
+## 8. Run the Video_demo.py
+
+```bash
+python video_demo.py ~/Downloads/can_0710.avi projects/configs/co_dino_vit/co_dino_5scale_lsj_vit_large_lvis.py weights/co_dino_5scale_lsj_vit_large_lvis.pth --out ./output.mp4
 ```
