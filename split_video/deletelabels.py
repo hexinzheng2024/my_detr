@@ -52,7 +52,7 @@ def process_txt_file(file_path):
                     to_remove.add(j)
                 else:
                     to_remove.add(i)
-    # print(to_remove)
+    print(to_remove)
     
     # Write the filtered boxes back to the file
     with open(file_path, 'w') as f:
@@ -68,5 +68,5 @@ def process_all_files_in_folder(folder_path):
 
 # 调用函数处理所有文件
 # folder_path = 'labels'  # 替换为您的labels文件夹路径
-folder_path = 'output/labels'
+folder_path = '/home/eii/Downloads/labels'
 process_all_files_in_folder(folder_path)

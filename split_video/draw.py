@@ -5,10 +5,10 @@ def draw_bounding_box(image, boxes):
     width, height = image.size
 
     # 使用自定义字体，设置字体大小
-    font = ImageFont.truetype("fonts/arial.ttf", 36)  # 确保系统有该字体（可以更改字体路径）
+    font = ImageFont.truetype("../fonts/arial.ttf", 36)  # 确保系统有该字体（可以更改字体路径）
 
     for box in boxes:
-        line_number, label, x_center, y_center, w, h = box
+        line_number, label, x_center, y_center, w, h, scores = box
         # Convert from normalized coordinates to absolute pixel values
         x_center *= width
         y_center *= height
@@ -61,7 +61,7 @@ def process_all_files(labels_folder, images_folder, output_folder):
                 process_txt_file(txt_file_path, img_file_path, output_file_path)
 
 # 调用函数处理所有文件
-labels_folder = 'output/labels_out'  # 替换为您的labels文件夹路径
-images_folder = 'output/images'  # 替换为您的images文件夹路径
-output_folder = 'output_2'  # 替换为您想要保存输出图片的文件夹路径
+labels_folder = '/home/eii/Downloads/test/labels'  # 替换为您的labels文件夹路径
+images_folder = '/home/eii/Downloads/test/images'  # 替换为您的images文件夹路径
+output_folder = '/home/eii/Downloads/test/output_2'  # 替换为您想要保存输出图片的文件夹路径
 process_all_files(labels_folder, images_folder, output_folder)

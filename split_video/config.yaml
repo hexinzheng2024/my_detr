@@ -1,10 +1,13 @@
-# config.yaml
-database:
-  host: localhost
-  port: 5432
-  username: user
-  password: secret
-
-logging:
-  level: DEBUG
-  file: /var/log/app.log
+device: cuda:0
+lvis: ../projects/configs/co_dino_vit/co_dino_5scale_lsj_vit_large_lvis.py
+model: ../weights/co_dino_5scale_lsj_vit_large_lvis.pth
+output_dir: /home/eii/Downloads/test
+output_images: images
+output_labels: labels
+output_labels_removed: labels_removed
+output_video: tmp.mp4
+output_crop_images: crop_images
+output_crop_images_removed: crop_images_removed
+output_jsonl: upload.jsonl
+score_thr: 0.3
+video: /home/eii/Downloads/can_0710_1.avi

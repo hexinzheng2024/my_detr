@@ -40,29 +40,32 @@ def crop_image_by_bbox(results, save_dir):
         image = cv2.imread(image_path)
         if image is None:
             raise ValueError(f"Failed to load image {image_path}")
-        image_height, image_width = image.shape[:2]
+        # image_height, image_width = 1 , 1
 
         for bbox in bboxes:
-            line_num,label, x, y, width, height = bbox
+            print(bbox)
+            line_num, x1, y1, x2, y2 = bbox
             # print(line_num)
             # Denormalize the bounding box coordinates
-            x = int(x * image_width)
-            y = int(y * image_height)
-            width = int(width * image_width)
-            height = int(height * image_height)
+            # x = int(x * image_width)
+            # y = int(y * image_height)
+            # width = int(width * image_width)
+            # height = int(height * image_height)
 
-            # Calculate the top-left corner of the bounding box
-            top_left_x = x - width // 2
-            top_left_y = y - height // 2
+            # # Calculate the top-left corner of the bounding box
+            # top_left_x = x - width // 2
+            # top_left_y = y - height // 2
 
             # Crop the image using the bounding box
             # if label == 0 or label == 7:
                 
-            cropped_image = image[top_left_y:top_left_y+height, top_left_x:top_left_x+width]
+            # cropped_image = image[top_left_y:top_left_y+height, top_left_x:top_left_x+width]
+            cropped_image = image[ int(y1) : int(y2) ,int(x1) : int(x2)]
             # print(cropped_image.shape, image_path)
             encoded_string = convert_image_to_base64(cropped_image)
             new_file_name = save_cropped_image(image_path, cropped_image, line_num, save_dir)
             cropped_images.append((new_file_name, encoded_string))
+
     return cropped_images, line_num
 
 def save_cropped_image(image_path, cropped_image, line_num, save_dir):
@@ -109,6 +112,7 @@ def process_images_and_labels(images_folder, labels_folder):
                 results[image_path] = result
                 # results.append((image_path, result))
 
+    print(results)
     return results
 
 def extract_xywh_from_yolo_txt(txt_path):
@@ -130,11 +134,10 @@ def extract_xywh_from_yolo_txt(txt_path):
         # Process each line
         for line_number, line in enumerate(lines, start=1):
             # if line.startswith('0') :
-                parts = line.strip().split()
-                x, y, w, h = map(float, parts[:])  # Convert the coordinates to float
-                label = 'none_label'
-                if len(parts) == 4:  # YOLO format: class_id x_center y_center width height
-                    xywh_list.append([line_number, label, x, y, w, h])
+            parts = line.strip().split(' ')
+            if len(parts) == 5:  # YOLO format: class_id x_center y_center width height
+                x, y, w, h = map(float, parts[:4])  # Convert the coordinates to float
+                xywh_list.append([line_number, x, y, w, h])
 
     return xywh_list
 
@@ -162,19 +165,21 @@ def generate_jsonl_file(data_array, filename="output.jsonl"):
                                                     }
                                                     }
                                                 ]
-       }
+    }
                     ],
                     "max_tokens": 1000
                 }
             }
             file.write(json.dumps(data) + '\n')
 
-images_folder = 'output/images'
-labels_folder = 'output/labels_out'
-save_dir = 'output/testimg_crop'
+# images_folder = 'images'
+# labels_folder = 'labels'
+# save_dir = '/media/eii-jh/D/bottle_dataset/done/45/output/testimg_crop'
 
+images_folder = '/home/eii/Downloads/test/images'
+labels_folder = '/home/eii/Downloads/test/labels'
+save_dir = '/home/eii/Downloads/test/images_crop_1'
 
 results = process_images_and_labels(images_folder, labels_folder)
 image,line_num = crop_image_by_bbox(results, save_dir)
 generate_jsonl_file(image)
-    
